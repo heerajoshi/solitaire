@@ -1,25 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./app.css";
+import Foundations from "./ foundations.js";
+import Deck from './Deck';
 
-class App extends Component {
+const CLOSE_CARD_UNICODE = "\u{1F0A0}";
+
+class App extends React.Component {
+
+ allowDrop(event) {
+    event.prevententDefault();
+  }
+  
+ drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+  }
+  
+ drop(event) {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    event.target.appendChild(document.getElementById(data));
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="upperRow">
+        <div className="deck" />
+        <Foundations id='suit1' onDrop={this.drop.bind(this)} onDragOver={this.allowDrop.bind(this)}/>
+        <Foundations id='suit2' onDrop={this.drop.bind(this)} onDragOver={this.allowDrop.bind(this)}/>
+        <Foundations id='suit3' onDrop={this.drop.bind(this)} onDragOver={this.allowDrop.bind(this)}/>
+        <Foundations id='suit4' onDrop={this.drop.bind(this)} onDragOver={this.allowDrop.bind(this)}/>
       </div>
     );
   }
